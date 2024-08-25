@@ -1,6 +1,6 @@
 import sys
-import pygame
+import crazyarcade
 from pygame.locals import *
 
 ## pygame 기능 사용을 시작하는 명령어 ##
-pygame.init()
+crazyarcade.init()
