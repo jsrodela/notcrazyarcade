@@ -7,18 +7,18 @@ from pygame.locals import *
 pygame.init()
 
 #화면
-window_width = 1280
-window_height = 640
-window_size [window_width, window_height]
-window = pygame.display.set_mode(window_size)
+screen_width = 1280
+screen_height = 640
+screensize = [window_width, window_height]
+screen = pygame.display.set_mode(screensize)
 pygame.display.set_caption("Crazy Arcade by RoDeLa")
 
 character = pygame.image.load("./image/Bezzi.png")
 character_size = character.get_rect().size
 character_width = character_size[0]
 character_height = character_size[1]
-character_x_pos = (window_width / 2) - (character_width / 2)
-character_y_pos = window_height - character_height
+character_x_pos = (screen_width / 2) - (character_width / 2)
+character_y_pos = screen_height - character_height
 
 to_x = 0
 to_y = 0
@@ -45,11 +45,11 @@ character_y_pos += to_y
 
 if character_x_pos < 0:
     character_x_pos = 0
-elif character_x_pos > window_width - character_height:
-    character_y_pos = window_height
+elif character_x_pos > screen_width - character_height:
+    character_y_pos = screen_height
 
-window.blit(image_file, (0, 0))
-window.blit(character, (character_x_pos, character_y_pos))
+screen.blit(image_file, (0, 0))
+screen.blit(character, (character_x_pos, character_y_pos))
 pygame.display.update()
 
 pygame.quit()

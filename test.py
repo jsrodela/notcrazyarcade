@@ -6,8 +6,8 @@ from pygame.locals import *
 pygame.init()
 
 #디스플레이
-screen_width = 1000
-screen_height = 800
+screen_width = 1280
+screen_height = 1280
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 pygame.display.set_caption("Crazy Arcade by RoDeLa V7")
@@ -31,8 +31,7 @@ background = pygame.image.load("./image/Map.jpg")
 character = pygame.image.load("./image/Bezzi.png")
 character_size = character.get_rect().size 
 character_width = character_size[0] 
-character_height = character_size[0.5
-]
+character_height = character_size[1]
 
 #캐릭터의 기준 좌표
 character_x_pos = (screen_width / 2) - (character_width / 2)  #화면 중앙 (가로,세로/2)에 위치
