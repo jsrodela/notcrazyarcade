@@ -31,7 +31,8 @@ background = pygame.image.load("./image/Map.jpg")
 character = pygame.image.load("./image/Bezzi.png")
 character_size = character.get_rect().size 
 character_width = character_size[0] 
-character_height = character_size[1]
+character_height = character_size[0.5
+]
 
 #캐릭터의 기준 좌표
 character_x_pos = (screen_width / 2) - (character_width / 2)  #화면 중앙 (가로,세로/2)에 위치
