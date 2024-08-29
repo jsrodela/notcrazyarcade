@@ -39,6 +39,7 @@ while running:
     # FPS 설정
     FramePerSec.tick(FPS)
 
+
 # 파이게임 종료
 pygame.quit()
 sys.exit()

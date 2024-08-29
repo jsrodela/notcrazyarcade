@@ -5,9 +5,10 @@ from pygame.locals import *
 #게임 초기화
 pygame.init()
 
+
 #디스플레이
-screen_width = 1280
-screen_height = 1280
+screen_width = 1920
+screen_height = 1080
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 pygame.display.set_caption("Crazy Arcade by RoDeLa V7")
