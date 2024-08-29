@@ -1,3 +1,5 @@
 __pycache__
 .venv
 testzone.pytestzone2.py
+testsupport.py
+test.py
