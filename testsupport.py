@@ -12,6 +12,12 @@ screen_height = 1080
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Crazy Arcade by RoDeLa")
 
+# FPS 설정
+clock = pygame.time.Clock()
+FPS = 30
+title_font = pygame.font.Font(None,120)
+menu_font = pygame.font.Font(None,70)
+
 # 배경 설정
 background = pygame.image.load("./image/Map.jpg")
 background = pygame.transform.scale(background, (screen_width, screen_height))
@@ -75,8 +81,104 @@ while is_game_running:
         character_y_pos = screen_height - character_height
         character_x_pos = (screen_width / 2) - (character_width / 2)
         character_y_pos = (screen_height / 2)
+        
+#적 정의
+class enemy:
+    
+    enemy = pygame.image.load("./image/Badguy.png")
+    enemy_caught = pygame.image.load("./image/Captured.png")
+    
+    
+    size = enemy.get_rect().size
+    width = size[0]
+    height = size[1]
+    
+    x = None
+    y = None
+    
+    speed = random.randrange(-1,3,2)
+    
+    isAlive = True
+    isCaught = False
+    
+    time = 5
+    
+    elapsed_time = 0
+    start_ticks = None
+    
+    def __init__(self):
+        self.x = random.randrange(-1,2,2)
+        self.y = random.randrange(-1,2,2)
+        
+    def get_rect(self):
+        rect_x = self.x + self.width / 8
+        rect_y = self.y + self.width / 8
+        
+        rect = pygame.Rect(rect_x, rect_y, rect_width, rect_width)
 
+        return rect
+    
+    def displayEnemy(self):
+        if not self.isCaught:
+            screen.blit(self.enemy,(self.x,self.y))
+        else:
+            screen.blit(self.enemy_caught, (self.x,self.y))
+        
+    def moveEnemy(self):
+        if not self.isCaught:
+            if random.randrange(70) == 0:
+                self.x_direction *= -1
+            if random.randrange(70) == 0:
+                self.y_direction *= -1
+                
+            self.x += self.speed * self.x_direction
+            self.y += self.speed * self.y_direction
+            
+            if self.x < 0 or self.x > screen_width - self.width:
+                self.x_direction *= -1
+            if self.y < 0 or self.y > screen_height - self.height:
+                self.y_direction *= -1
+                
+    def reachBalloon(self):
+        if not self.isCaught:
+            self.start_ticks = pygame.time.get_ticks()
+        
+        
+    def setStartTicks(self):
+        if not self.isCaught:
+            self.start_ticks = pygame.time.get_ticks()
+            
+    def countdown(self):
+        if self.isCaught:
+            self.elapsed_time = (pygame.time.get_ticks() - self.start_ticks) / 1000
+            timer = self.time - self.elapsed_time
+            if timer < 0:
+                self.isCaught = False
+    def killEnemy(self):
+        self.kill_enemy.play()
+        self.kill_enemy.play()
+        self.isAlive = False
 
+    def beCaught(self):
+        self.setStartTicks()
+        self.isCaught = True
+
+    def showEnemy(self):
+        self.displayEnemy()
+        self.moveEnemy()
+        self.countdown()
+    
+    
+#물풍선 정의
+class waterballoon:
+    waterballoon = pygame.image.load("./image/Balloon.png")
+    
+    water_bottom = pygame.image.load("./image/water_bottom.png")
+    water_center = pygame.image.load("./image/water_center.png")
+    water_left = pygame.image.load("./image/water_left.png")
+    water_right = pygame.image.load("./image/water_right.png")
+    water_top = pygame.image.load("./image/water_top.png")    
+    
     
     # 화면 그리기
     screen.blit(background, (0, 0))  # 배경 그리기
