@@ -69,7 +69,7 @@ class Enemy:
 
     def get_rect(self):
         # 히트박스를 줄이기 위해 조금 더 작은 사각형을 반환
-        return pygame.Rect(self.x + 10, self.y + 10, self.width - 20, self.height - 20)
+        return pygame.Rect(self.x + 40, self.y + 40, self.width - 40, self.height - 40)
 
     def display(self):
         if self.is_caught:
@@ -173,6 +173,16 @@ while is_game_running:
     pygame.display.update()  # 화면 업데이트
     clock.tick(FPS)  # FPS 조절
 
-# 게임 종료
+# 게임 종료 후 경과 시간 표시
+screen.fill((0, 0, 0))  # 화면을 검정색으로 채우기
+font = pygame.font.Font(None, 74)
+text = font.render(f"Game Over! Time: {int(elapsed_time)}s", True, (255, 255, 255))
+text_rect = text.get_rect(center=(screen_width / 2, screen_height / 2))
+screen.blit(text, text_rect)
+pygame.display.update()
+
+# 종료 대기
+pygame.time.wait(3000)  # 3초 동안 대기
+
 pygame.quit()
 sys.exit()

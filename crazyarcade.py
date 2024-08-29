@@ -69,7 +69,7 @@ class Enemy:
 
     def get_rect(self):
         # 히트박스를 줄이기 위해 조금 더 작은 사각형을 반환
-        return pygame.Rect(self.x + 10, self.y + 10, self.width - 20, self.height - 20)
+        return pygame.Rect(self.x + 40, self.y + 40, self.width - 40, self.height - 40)
 
     def display(self):
         if self.is_caught:
