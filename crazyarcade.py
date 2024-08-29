@@ -100,7 +100,7 @@ class Enemy:
         self.start_ticks = pygame.time.get_ticks()
 
 def reset_game():
-    global character_x_pos, character_y_pos, to_x, to_y, enemies, start_ticks, is_game_running, enemy_spawn_time
+    global character_x_pos, character_y_pos, to_x, to_y, enemies, start_ticks, is_game_running, enemy_spawn_time, final_time
     character_x_pos = (screen_width / 2) - (character_width / 2)
     character_y_pos = (screen_height / 2)
     to_x, to_y = 0, 0
@@ -108,24 +108,26 @@ def reset_game():
     start_ticks = pygame.time.get_ticks()
     enemy_spawn_time = 0
     is_game_running = True
+    final_time = 0
 
 reset_game()
 
 while True:
     current_ticks = pygame.time.get_ticks()
-    elapsed_time = (current_ticks - start_ticks) / 1000
 
-    if elapsed_time >= enemy_spawn_time:
-        enemies.append(Enemy())
-        enemy_spawn_time = elapsed_time + random.uniform(0, 2)
+    if is_game_running:
+        elapsed_time = (current_ticks - start_ticks) / 1000
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+        if elapsed_time >= enemy_spawn_time:
+            enemies.append(Enemy())
+            enemy_spawn_time = elapsed_time + random.uniform(0, 2)
 
-        if event.type == pygame.KEYDOWN:
-            if is_game_running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     to_x = -8
                 if event.key == pygame.K_RIGHT:
@@ -134,17 +136,13 @@ while True:
                     to_y = -8
                 if event.key == pygame.K_DOWN:
                     to_y = 8
-            else:
-                if event.key == pygame.K_r:
-                    reset_game()
 
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                to_x = 0
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                to_y = 0
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    to_x = 0
+                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    to_y = 0
 
-    if is_game_running:
         character_x_pos += to_x
         character_y_pos += to_y
 
@@ -167,15 +165,24 @@ while True:
         for enemy in enemies:
             enemy.update()
             if enemy.get_rect().colliderect(pygame.Rect(character_x_pos, character_y_pos, character_width, character_height)):
+                final_time = elapsed_time  # 게임 종료 시점의 시간을 저장
                 is_game_running = False
 
         pygame.display.update()
         clock.tick(FPS)
 
     else:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    reset_game()
+
         screen.fill((0, 0, 0))
         font = pygame.font.Font(None, 74)
-        text = font.render(f"Game Over! Time: {int(elapsed_time)}s", True, (255, 255, 255))
+        text = font.render(f"Game Over! Time: {int(final_time)}s", True, (255, 255, 255))
         text_rect = text.get_rect(center=(screen_width / 2, screen_height / 2))
         screen.blit(text, text_rect)
         font_small = pygame.font.Font(None, 36)
